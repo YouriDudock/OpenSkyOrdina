@@ -3,14 +3,16 @@ package main
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import main.data.Country
+import main.statevector.domain.Country
+import main.statevector.service.StateVectorPollingService
+import main.statevector.service.StateVectorService
 
 class OpenSky {
     companion object {
         /**
          * Debug mode
          */
-        const val IS_DEBUG = false
+        const val IS_DEBUG = true
     }
 }
 
