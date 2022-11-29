@@ -1,5 +1,8 @@
 package main.statevector.service
 
+import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.kotlin.toObservable
 import main.statevector.domain.Country
 import main.statevector.repository.StateVectorRepository
 import main.statevector.domain.StateVector

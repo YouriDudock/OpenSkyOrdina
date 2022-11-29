@@ -1,10 +1,14 @@
 package main.statevector.repository
 
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.subjects.PublishSubject
 import main.statevector.domain.StateVector
 
 object StateVectorRepository {
 
     private val stateVectors = mutableListOf<StateVector>()
+
+    private val updatePublishSubject: PublishSubject<List<StateVector>> = PublishSubject.create()
 
     /**
      * Updates the state vector repository with new or updated entries
@@ -14,7 +18,7 @@ object StateVectorRepository {
         updatedStateVectors.forEach { updatedStateVector ->
 
             // check if state vector already exists based on id
-            val vector = stateVectors.find {
+            val vector = stateVectors.toList().find {
                 it.icao24 == updatedStateVector.icao24
             }
 
@@ -26,6 +30,9 @@ object StateVectorRepository {
                 stateVectors.add(updatedStateVector)
             }
         }
+
+        // publish update event
+        updatePublishSubject.onNext(stateVectors)
     }
 
     /**
@@ -33,4 +40,10 @@ object StateVectorRepository {
      */
     fun getAll() = stateVectors.toList()
 
+    /**
+     * Returns the Observable when a repository update has happened
+     */
+    fun getUpdateEvent(): Observable<List<StateVector>> {
+        return updatePublishSubject.hide()
+    }
 }

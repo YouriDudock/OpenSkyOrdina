@@ -1,5 +1,7 @@
 package main.statevector.service
 
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.kotlin.toObservable
 import main.statevector.repository.StateVectorRepository
 import main.statevector.mapping.StateVectorMapper
 import main.statevector.web.rest.OpenSkyClient
