@@ -12,7 +12,7 @@ class OpenSky {
         /**
          * Debug mode
          */
-        const val IS_DEBUG = true
+        const val IS_DEBUG = false
     }
 }
 

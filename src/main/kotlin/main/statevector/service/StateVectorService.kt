@@ -14,7 +14,8 @@ class StateVectorService {
      * Sort StateVectors by Orgin Country
      */
     fun showVectorsByOrginCountrySorted(limit: Int) {
-        val stateVectors = StateVectorRepository.getAllStateVectors()
+        // get all vectors to show full result since application launch
+        val stateVectors = StateVectorRepository.getAll()
 
         // sort to frequency of orgin country in vectors
         val frequencyCountryVectors = stateVectors.groupingBy { it.orginCountry }
@@ -39,21 +40,21 @@ class StateVectorService {
      */
     fun showAmountOfVectorsAboveCountry(country: Country) {
         // filter all state vectors based on lat & long
-        val stateVectors = StateVectorRepository.getAllStateVectors().filter {
+        val countrySpecificVectors = getAllActiveStateVectors().filter {
             it.latitude != null && it.longitude != null &&
                     it.latitude >= country.lamin && it.latitude <= country.lamax &&
                     it.longitude >= country.lomin && it.longitude <= country.lomax
         }
 
         // show count
-        println("State vectors currently above ${country.name}: ${stateVectors.count()}")
+        println("State vectors currently above ${country.name}: ${countrySpecificVectors.count()}")
     }
 
     /**
      * Show StateVector altitude slices with automatic range creation
      */
     fun showAltitudeSlicesOfVectors() {
-        val activeStateVectors = StateVectorRepository.getAllStateVectors()
+        val activeStateVectors = getAllActiveStateVectors()
 
         // filter and sort by altitude
         val altitudeSortedVectors = activeStateVectors.filter { it.geoAltitude != null }
@@ -105,6 +106,13 @@ class StateVectorService {
 
             println()
         }
+    }
+
+    /**
+     * Gets all StateVectors that are active, meaning that their position was updated in the last 15 seconds
+     */
+    private fun getAllActiveStateVectors() = StateVectorRepository.getAll().filter {
+            it.timePosition != null
     }
 
     companion object {
