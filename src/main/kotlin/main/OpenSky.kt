@@ -19,10 +19,6 @@ class OpenSky {
          */
         const val IS_DEBUG = false
     }
-
-    fun t() {
-
-    }
 }
 
 fun main() {
