@@ -1,16 +1,11 @@
 package main
 
-import io.reactivex.rxjava3.core.Observer
-import io.reactivex.rxjava3.core.Scheduler
-import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import main.statevector.domain.Country
-import main.statevector.domain.StateVector
+import main.statevector.event.StateVectorRepositoryUpdateObserver
 import main.statevector.repository.StateVectorRepository
 import main.statevector.service.StateVectorPollingService
-import main.statevector.service.StateVectorService
 
 class OpenSky {
     companion object {
@@ -33,22 +28,4 @@ fun main() {
         }
 
     }
-}
-
-class StateVectorRepositoryUpdateObserver : Observer<List<StateVector>> {
-
-    private val stateVectorService = StateVectorService()
-
-    override fun onSubscribe(d: Disposable) {}
-
-    override fun onNext(t: List<StateVector>) {
-        stateVectorService.showAmountOfVectorsAboveCountry(Country.NETHERLANDS)
-        stateVectorService.showVectorsByOrginCountrySorted(3)
-        stateVectorService.showAltitudeSlicesOfVectors()
-    }
-
-    override fun onError(e: Throwable) {}
-
-    override fun onComplete() {}
-
 }
